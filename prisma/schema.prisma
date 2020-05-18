@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model comments {
+  createdat DateTime  @default(now())
+  id        String    @default(dbgenerated()) @id
+  text      String
+  userid    String?
+  videoid   String?
+  users     users?    @relation(fields: [userid], references: [id])
+  videos    videos?   @relation(fields: [videoid], references: [id])
+  replies   replies[]
+}
+
+model reactions {
+  id       String   @default(dbgenerated()) @id
+  reaction reaction
+  userid   String
+  videoid  String
+  users    users    @relation(fields: [userid], references: [id])
+  videos   videos   @relation(fields: [videoid], references: [id])
+}
+
+model replies {
+  commentid String
+  createdat DateTime? @default(now())
+  id        String    @default(dbgenerated()) @id
+  text      String
+  userid    String
+  comments  comments  @relation(fields: [commentid], references: [id])
+  users     users     @relation(fields: [userid], references: [id])
+}
+
+model searchhistories {
+  id     String @default(dbgenerated()) @id
+  text   String
+  userid String
+  users  users  @relation(fields: [userid], references: [id])
+}
+
+model subscriptions {
+  channel                               String
+  createdat                             DateTime? @default(now())
+  id                                    String    @default(dbgenerated()) @id
+  subscriber                            String
+  users_subscriptions_channelTousers    users     @relation("subscriptions_channelTousers", fields: [channel], references: [id])
+  users_subscriptions_subscriberTousers users     @relation("subscriptions_subscriberTousers", fields: [subscriber], references: [id])
+}
+
+model users {
+  banner                                        String?
+  channel                                       String?
+  createdat                                     DateTime          @default(now())
+  email                                         String            @unique
+  fullname                                      String
+  id                                            String            @default(dbgenerated()) @id
+  password                                      String
+  profile                                       String
+  comments                                      comments[]
+  reactions                                     reactions[]
+  replies                                       replies[]
+  searchhistories                               searchhistories[]
+  subscriptions_subscriptions_channelTousers    subscriptions[]   @relation("subscriptions_channelTousers")
+  subscriptions_subscriptions_subscriberTousers subscriptions[]   @relation("subscriptions_subscriberTousers")
+  videos                                        videos[]
+  watchhistories                                watchhistories[]
+}
+
+model videos {
+  createdat      DateTime         @default(now())
+  creator        String
+  description    String?
+  id             String           @default(dbgenerated()) @id
+  title          String
+  views          Int              @default(0)
+  users          users            @relation(fields: [creator], references: [id])
+  comments       comments[]
+  reactions      reactions[]
+  watchhistories watchhistories[]
+}
+
+model watchhistories {
+  id      String @default(dbgenerated()) @id
+  userid  String
+  videoid String
+  users   users  @relation(fields: [userid], references: [id])
+  videos  videos @relation(fields: [videoid], references: [id])
+}
+
+enum reaction {
+  dislike
+  like
+}
