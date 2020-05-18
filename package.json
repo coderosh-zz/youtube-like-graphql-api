@@ -21,6 +21,8 @@
     "@prisma/client": "^2.0.0-beta.5",
     "@types/node": "^14.0.1",
     "@types/ws": "^7.2.4",
-    "graphql-yoga": "^1.18.3"
+    "graphql-tools": "^5.0.0",
+    "graphql-yoga": "^1.18.3",
+    "merge-graphql-schemas": "^1.7.8"
   }
 }
