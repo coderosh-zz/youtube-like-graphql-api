@@ -11,46 +11,46 @@ model comments {
   createdat DateTime  @default(now())
   id        String    @default(dbgenerated()) @id
   text      String
-  userid    String
-  videoid   String
-  users     users     @relation(fields: [userid], references: [id])
-  videos    videos    @relation(fields: [videoid], references: [id])
+  userid    String?
+  videoid   String?
+  users     users?    @relation(fields: [userid], references: [id])
+  videos    videos?   @relation(fields: [videoid], references: [id])
   replies   replies[]
 }
 
 model reactions {
   id       String   @default(dbgenerated()) @id
   reaction reaction
-  userid   String
-  videoid  String
-  users    users    @relation(fields: [userid], references: [id])
-  videos   videos   @relation(fields: [videoid], references: [id])
+  userid   String?
+  videoid  String?
+  users    users?   @relation(fields: [userid], references: [id])
+  videos   videos?  @relation(fields: [videoid], references: [id])
 }
 
 model replies {
-  commentid String
+  commentid String?
   createdat DateTime? @default(now())
   id        String    @default(dbgenerated()) @id
   text      String
-  userid    String
-  comments  comments  @relation(fields: [commentid], references: [id])
-  users     users     @relation(fields: [userid], references: [id])
+  userid    String?
+  comments  comments? @relation(fields: [commentid], references: [id])
+  users     users?    @relation(fields: [userid], references: [id])
 }
 
 model searchhistories {
-  id     String @default(dbgenerated()) @id
+  id     String  @default(dbgenerated()) @id
   text   String
-  userid String
-  users  users  @relation(fields: [userid], references: [id])
+  userid String?
+  users  users?  @relation(fields: [userid], references: [id])
 }
 
 model subscriptions {
-  channel                               String
+  channel                               String?
   createdat                             DateTime? @default(now())
   id                                    String    @default(dbgenerated()) @id
-  subscriber                            String
-  users_subscriptions_channelTousers    users     @relation("subscriptions_channelTousers", fields: [channel], references: [id])
-  users_subscriptions_subscriberTousers users     @relation("subscriptions_subscriberTousers", fields: [subscriber], references: [id])
+  subscriber                            String?
+  users_subscriptions_channelTousers    users?    @relation("subscriptions_channelTousers", fields: [channel], references: [id])
+  users_subscriptions_subscriberTousers users?    @relation("subscriptions_subscriberTousers", fields: [subscriber], references: [id])
 }
 
 model users {
@@ -74,23 +74,24 @@ model users {
 
 model videos {
   createdat      DateTime         @default(now())
-  creator        String
+  creator        String?
   description    String?
   id             String           @default(dbgenerated()) @id
   title          String
+  url            String
   views          Int              @default(0)
-  users          users            @relation(fields: [creator], references: [id])
+  users          users?           @relation(fields: [creator], references: [id])
   comments       comments[]
   reactions      reactions[]
   watchhistories watchhistories[]
 }
 
 model watchhistories {
-  id      String @default(dbgenerated()) @id
-  userid  String
-  videoid String
-  users   users  @relation(fields: [userid], references: [id])
-  videos  videos @relation(fields: [videoid], references: [id])
+  id      String  @default(dbgenerated()) @id
+  userid  String?
+  videoid String?
+  users   users?  @relation(fields: [userid], references: [id])
+  videos  videos? @relation(fields: [videoid], references: [id])
 }
 
 enum reaction {

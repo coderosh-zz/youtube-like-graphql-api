@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/server.js",
     "build": "tsc",
-    "dev": "ts-node-dev --no-notify --respawn --transpileOnly src/server"
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev -r dotenv/config --no-notify --respawn --transpileOnly src/server",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Roshan Acharya",
   "license": "ISC",
@@ -19,10 +19,15 @@
   },
   "dependencies": {
     "@prisma/client": "^2.0.0-beta.5",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.0.1",
     "@types/ws": "^7.2.4",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "graphql-tools": "^5.0.0",
     "graphql-yoga": "^1.18.3",
+    "jsonwebtoken": "^8.5.1",
     "merge-graphql-schemas": "^1.7.8"
   }
 }
