@@ -1,12 +1,13 @@
 export default `
-  type Query {
-    subs: [Subs!]!
+  type Mutation {
+    createSubs(channel: ID!): Subs!
+    deleteSubs(channel: ID!): Subs!
   }
 
   type Subs{
     id: ID!
-    subscriber: String!
-    channel: String!
+    subscriber: User!
+    channel: User!
     createdat: String!
   }
-`
+`;

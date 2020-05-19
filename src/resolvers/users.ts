@@ -187,5 +187,31 @@ export default {
         },
       });
     },
+
+    subscriptions: async (parent: any, args: any, ctx: Context) => {
+      const subs = await ctx.prisma.subscriptions.findMany({
+        where: {
+          subscriber: parent.id,
+        },
+        include: {
+          users_subscriptions_channelTousers: true,
+        },
+      });
+
+      return subs.map((sub) => sub.users_subscriptions_channelTousers);
+    },
+
+    subscribers: async (parent: any, args: any, ctx: Context) => {
+      const subs = await ctx.prisma.subscriptions.findMany({
+        where: {
+          channel: parent.id,
+        },
+        include: {
+          users_subscriptions_subscriberTousers: true,
+        },
+      });
+
+      return subs.map((sub) => sub.users_subscriptions_subscriberTousers);
+    },
   },
 };

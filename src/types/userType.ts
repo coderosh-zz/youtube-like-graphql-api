@@ -60,5 +60,7 @@ export default `
     comments: [Comment!]!
     replies: [Reply!]!
     reactions: [Reaction!]!
+    subscriptions: [User!]!
+    subscribers: [User!]!
   }
 `;
