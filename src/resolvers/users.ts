@@ -179,5 +179,13 @@ export default {
         },
       });
     },
+
+    reactions: async (parent: any, args: any, ctx: Context) => {
+      return await ctx.prisma.reactions.findMany({
+        where: {
+          user: parent.id,
+        },
+      });
+    },
   },
 };

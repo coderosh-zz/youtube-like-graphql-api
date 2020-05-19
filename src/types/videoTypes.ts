@@ -33,5 +33,6 @@ export default `
     creator: User!
     createdat: String!
     comments: [Comment!]!
+    reactions: [Reaction!]!
   }
-`
+`;

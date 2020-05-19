@@ -19,12 +19,12 @@ model comments {
 }
 
 model reactions {
-  id       String   @default(dbgenerated()) @id
-  reaction reaction
-  userid   String?
-  videoid  String?
-  users    users?   @relation(fields: [userid], references: [id])
-  videos   videos?  @relation(fields: [videoid], references: [id])
+  id       String    @default(dbgenerated()) @id
+  reaction reaction?
+  user     String?
+  video    String?
+  users    users?    @relation(fields: [user], references: [id])
+  videos   videos?   @relation(fields: [video], references: [id])
 }
 
 model replies {

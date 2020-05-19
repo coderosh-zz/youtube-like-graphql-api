@@ -1,33 +1,33 @@
-import { Context } from '../context'
-import { getAuthId } from '../utils/auth'
-import { processUpload } from '../utils/upload'
-import { unlink } from 'fs'
-import { promisify } from 'util'
+import { Context } from "../context";
+import { getAuthId } from "../utils/auth";
+import { processUpload } from "../utils/upload";
+import { unlink } from "fs";
+import { promisify } from "util";
 
 export default {
   Query: {
     videos: async (_parent: any, _args: any, ctx: Context) => {
-      return await ctx.prisma.videos.findMany()
+      return await ctx.prisma.videos.findMany();
     },
     video: async (_parent: any, args: any, ctx: Context) => {
       const video = await ctx.prisma.videos.findOne({
         where: {
           id: args.id,
         },
-      })
+      });
 
-      if (!video) throw new Error('Video not found')
+      if (!video) throw new Error("Video not found");
 
-      return video
+      return video;
     },
   },
 
   Mutation: {
     createVideo: async (_parent: any, args: any, ctx: Context) => {
-      const userId = getAuthId(ctx.req)
+      const userId = getAuthId(ctx.req);
       // const userId = '7734e503-a268-4afc-938b-178b5b59a23c'
 
-      const url = await processUpload(args.data.file)
+      const url = await processUpload(args.data.file);
 
       const createdVideo = await ctx.prisma.videos.create({
         data: {
@@ -40,54 +40,58 @@ export default {
             },
           },
         },
-      })
+      });
 
-      return createdVideo
+      return createdVideo;
     },
 
     updateVideo: async (_parent: any, args: any, ctx: Context) => {
-      const userId = getAuthId(ctx.req)
+      const userId = getAuthId(ctx.req);
 
       const video = await ctx.prisma.videos.findOne({
         where: {
           id: args.id,
         },
-      })
+      });
 
-      if (!video || video.creator !== userId) throw new Error('Video not found')
+      if (!video || video.creator !== userId) {
+        throw new Error("Video not found");
+      }
 
       const updatedVideo = await ctx.prisma.videos.update({
         where: {
           id: args.id,
         },
         data: args.data,
-      })
+      });
 
-      return updatedVideo
+      return updatedVideo;
     },
 
     deleteVideo: async (_parent: any, args: any, ctx: Context) => {
-      const userId = getAuthId(ctx.req)
+      const userId = getAuthId(ctx.req);
 
       const video = await ctx.prisma.videos.findOne({
         where: {
           id: args.id,
         },
-      })
+      });
 
-      if (!video || video.creator !== userId) throw new Error('Video not found')
+      if (!video || video.creator !== userId) {
+        throw new Error("Video not found");
+      }
 
-      const fsunlink = promisify(unlink)
+      const fsunlink = promisify(unlink);
 
       const deletedVideo = await ctx.prisma.videos.delete({
         where: {
           id: args.id,
         },
-      })
+      });
 
-      await fsunlink(`videos/${deletedVideo.url}`)
+      await fsunlink(`videos/${deletedVideo.url}`);
 
-      return deletedVideo
+      return deletedVideo;
     },
   },
 
@@ -97,7 +101,7 @@ export default {
         where: {
           id: parent.creator,
         },
-      })
+      });
     },
 
     comments: async (parent: any, args: any, ctx: Context) => {
@@ -105,7 +109,15 @@ export default {
         where: {
           video: parent.id,
         },
-      })
+      });
+    },
+
+    reactions: async (parent: any, args: any, ctx: Context) => {
+      return await ctx.prisma.reactions.findMany({
+        where: {
+          video: parent.id,
+        },
+      });
     },
   },
-}
+};

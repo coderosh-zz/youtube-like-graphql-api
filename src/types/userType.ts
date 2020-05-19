@@ -59,5 +59,6 @@ export default `
     videos: [Video!]!
     comments: [Comment!]!
     replies: [Reply!]!
+    reactions: [Reaction!]!
   }
-`
+`;

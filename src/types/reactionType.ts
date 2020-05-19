@@ -3,10 +3,14 @@ export default `
     reactions: [Reaction!]!
   }
 
+  type Mutation {
+    manageReaction(video: ID!, liked: Boolean!): Reaction!
+  }
+
   type Reaction {
     id: ID!
     reaction: String!
-    videoid: String!
-    userid: String!
+    video: Video!
+    user: User!
   }
-`
+`;
