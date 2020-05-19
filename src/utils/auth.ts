@@ -1,21 +1,33 @@
-import { ContextParameters } from 'graphql-yoga/dist/types'
-import { verifyToken } from './jwt'
+import { ContextParameters } from "graphql-yoga/dist/types";
+import { verifyToken } from "./jwt";
 
 export interface decodedToken {
-  iat: number
-  exp: number
-  id: string
+  iat: number;
+  exp: number;
+  id: string;
 }
 
 const getAuthId = (req: ContextParameters): string => {
-  const header = req.request.headers.authorization
-  if (!header) throw new Error("You aren't authorized")
+  const header = req.request.headers.authorization;
+  if (!header) throw new Error("You aren't authorized");
 
-  const token = header.replace('Bearer ', '')
+  const token = header.replace("Bearer ", "");
 
-  const decoded: decodedToken = verifyToken(token) as decodedToken
+  const decoded: decodedToken = verifyToken(token) as decodedToken;
 
-  return decoded.id
-}
+  return decoded.id;
+};
 
-export { getAuthId }
+const optionalAuth = (req: ContextParameters): string | boolean => {
+  const header = req.request.headers.authorization;
+
+  if (header) {
+    const token = header.replace("Bearer ", "");
+    const decoded: decodedToken = verifyToken(token) as decodedToken;
+
+    return decoded.id;
+  }
+  return false;
+};
+
+export { getAuthId, optionalAuth };

@@ -7,12 +7,12 @@ export default `
   type SearchHistory {
     id: ID!
     text: String!
-    userid: String
+    user: User!
   }
 
   type WatchHistory {
     id: ID!
-    userid: String!
-    videoid: String!
+    user: User!
+    video: Video!
   }
-`
+`;

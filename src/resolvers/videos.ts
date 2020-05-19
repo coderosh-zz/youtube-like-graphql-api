@@ -1,13 +1,42 @@
 import { Context } from "../context";
-import { getAuthId } from "../utils/auth";
+import { getAuthId, optionalAuth } from "../utils/auth";
 import { processUpload } from "../utils/upload";
 import { unlink } from "fs";
 import { promisify } from "util";
 
 export default {
   Query: {
-    videos: async (_parent: any, _args: any, ctx: Context) => {
-      return await ctx.prisma.videos.findMany();
+    videos: async (_parent: any, args: any, ctx: Context) => {
+      let searchQuery = {};
+
+      if (args.query) {
+        const userId = optionalAuth(ctx.req);
+
+        if (typeof userId === "string") {
+          await ctx.prisma.searchhistories.create({
+            data: {
+              text: args.query,
+              users: {
+                connect: {
+                  id: userId,
+                },
+              },
+            },
+          });
+        }
+
+        searchQuery = {
+          where: {
+            title: {
+              contains: args.query,
+            },
+          },
+        };
+      }
+
+      const videos = await ctx.prisma.videos.findMany(searchQuery);
+
+      return videos;
     },
     video: async (_parent: any, args: any, ctx: Context) => {
       const video = await ctx.prisma.videos.findOne({
@@ -17,6 +46,25 @@ export default {
       });
 
       if (!video) throw new Error("Video not found");
+
+      const userId = optionalAuth(ctx.req);
+
+      if (typeof userId === "string") {
+        await ctx.prisma.watchhistories.create({
+          data: {
+            users: {
+              connect: {
+                id: userId,
+              },
+            },
+            videos: {
+              connect: {
+                id: video.id,
+              },
+            },
+          },
+        });
+      }
 
       return video;
     },

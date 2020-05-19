@@ -2,7 +2,7 @@ export default `
   scalar Upload
 
   type Query {
-    videos: [Video!]!
+    videos(query: String): [Video!]!
     video(id: ID!): Video!
   }
 

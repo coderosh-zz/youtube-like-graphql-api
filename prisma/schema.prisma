@@ -38,10 +38,10 @@ model replies {
 }
 
 model searchhistories {
-  id     String  @default(dbgenerated()) @id
-  text   String
-  userid String?
-  users  users?  @relation(fields: [userid], references: [id])
+  id    String  @default(dbgenerated()) @id
+  text  String
+  user  String?
+  users users?  @relation(fields: [user], references: [id])
 }
 
 model subscriptions {
@@ -87,11 +87,11 @@ model videos {
 }
 
 model watchhistories {
-  id      String  @default(dbgenerated()) @id
-  userid  String?
-  videoid String?
-  users   users?  @relation(fields: [userid], references: [id])
-  videos  videos? @relation(fields: [videoid], references: [id])
+  id     String  @default(dbgenerated()) @id
+  user   String?
+  video  String?
+  users  users?  @relation(fields: [user], references: [id])
+  videos videos? @relation(fields: [video], references: [id])
 }
 
 enum reaction {
