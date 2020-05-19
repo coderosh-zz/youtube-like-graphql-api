@@ -7,9 +7,11 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "ts-node-dev -r dotenv/config --no-notify --respawn --transpileOnly src/server",
+    "preinstall": "npx npm-force-resolutions",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Roshan Acharya",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@prisma/cli": "^2.0.0-beta.5",
@@ -20,14 +22,22 @@
   "dependencies": {
     "@prisma/client": "^2.0.0-beta.5",
     "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.6",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.0.1",
+    "@types/shortid": "0.0.29",
     "@types/ws": "^7.2.4",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "graphql-tools": "^5.0.0",
     "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",
-    "merge-graphql-schemas": "^1.7.8"
+    "merge-graphql-schemas": "^1.7.8",
+    "shortid": "^2.2.15"
+  },
+  "resolutions": {
+    "**/**/fs-capacitor": "^6.1.0",
+    "**/graphql-upload": "^10.0.0"
   }
 }

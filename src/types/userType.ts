@@ -56,5 +56,6 @@ export default `
     banner: String
     fullname: String!
     createdat: String!
+    videos: [Video!]!
   }
 `

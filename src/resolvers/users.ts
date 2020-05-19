@@ -150,4 +150,14 @@ export default {
       return user
     },
   },
+
+  User: {
+    videos: async (parent: any, args: any, ctx: Context) => {
+      return await ctx.prisma.videos.findMany({
+        where: {
+          creator: parent.id,
+        },
+      })
+    },
+  },
 }
