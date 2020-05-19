@@ -11,10 +11,10 @@ model comments {
   createdat DateTime  @default(now())
   id        String    @default(dbgenerated()) @id
   text      String
-  userid    String?
-  videoid   String?
-  users     users?    @relation(fields: [userid], references: [id])
-  videos    videos?   @relation(fields: [videoid], references: [id])
+  user      String?
+  video     String?
+  users     users?    @relation(fields: [user], references: [id])
+  videos    videos?   @relation(fields: [video], references: [id])
   replies   replies[]
 }
 

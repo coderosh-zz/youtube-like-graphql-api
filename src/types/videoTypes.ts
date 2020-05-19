@@ -32,5 +32,6 @@ export default `
     views: Int!
     creator: User!
     createdat: String!
+    comments: [Comment!]!
   }
 `

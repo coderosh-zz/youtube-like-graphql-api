@@ -159,5 +159,13 @@ export default {
         },
       })
     },
+
+    comments: async (parent: any, args: any, ctx: Context) => {
+      return await ctx.prisma.comments.findMany({
+        where: {
+          user: parent.id,
+        },
+      })
+    },
   },
 }

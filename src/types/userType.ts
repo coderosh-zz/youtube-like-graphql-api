@@ -57,5 +57,6 @@ export default `
     fullname: String!
     createdat: String!
     videos: [Video!]!
+    comments: [Comment!]!
   }
 `
