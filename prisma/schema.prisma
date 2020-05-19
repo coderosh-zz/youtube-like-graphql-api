@@ -28,13 +28,13 @@ model reactions {
 }
 
 model replies {
-  commentid String?
+  comment   String?
   createdat DateTime? @default(now())
   id        String    @default(dbgenerated()) @id
   text      String
-  userid    String?
-  comments  comments? @relation(fields: [commentid], references: [id])
-  users     users?    @relation(fields: [userid], references: [id])
+  user      String?
+  comments  comments? @relation(fields: [comment], references: [id])
+  users     users?    @relation(fields: [user], references: [id])
 }
 
 model searchhistories {

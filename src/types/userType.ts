@@ -58,5 +58,6 @@ export default `
     createdat: String!
     videos: [Video!]!
     comments: [Comment!]!
+    replies: [Reply!]!
   }
 `

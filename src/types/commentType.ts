@@ -23,6 +23,7 @@ export default `
     text: String!
     user: User!
     video: Video!
+    replies: [Reply!]!
     createdat: String!
   }
-`
+`;
